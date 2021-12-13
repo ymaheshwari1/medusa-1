@@ -1,7 +1,7 @@
 module.exports = {
   integrations: {
-    <% INTEGRATION %>: {
-      location: '@vue-storefront/<% INTEGRATION %>-api/server',
+    medusa: {
+      location: '@vue-storefront/medusa-api/server',
       configuration: {}
     }
   }

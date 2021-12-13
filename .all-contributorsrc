@@ -1,6 +1,6 @@
 {
-  "projectName": "<% INTEGRATION %>",
-  "projectOwner": "vuestorefront",
+  "projectName": "medusa",
+  "projectOwner": "vuestorefront-community",
   "repoType": "github",
   "repoHost": "https://github.com",
   "files": [

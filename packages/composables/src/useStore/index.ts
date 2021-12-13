@@ -1,4 +1,4 @@
-import { Store } from '@vue-storefront/<% INTEGRATION %>-api';
+import { Store } from '@vue-storefront/medusa-api';
 import { Context, useStoreFactory } from '@vue-storefront/core';
 
 export const useStore = useStoreFactory<Store>({
