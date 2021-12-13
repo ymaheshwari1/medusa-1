@@ -1,19 +1,27 @@
 import {
-  Context,
+  Context, Logger,
   useCartFactory,
   UseCartFactoryParams
 } from '@vue-storefront/core';
 import type {
-  Cart,
   CartItem,
   Product
 } from '@vue-storefront/medusa-api';
+import { Cart } from '@medusajs/medusa';
 
 const params: UseCartFactoryParams<Cart, CartItem, Product> = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   load: async (context: Context, { customQuery }) => {
-    console.log('Mocked: useCart.load');
-    return {};
+    Logger.debug('[Medusa]: Loading cart');
+
+    const createCart = async () => {
+      Logger.debug('[Medusa]: Creating cart');
+      return context.$medusa.api.createCart();
+    };
+
+    const data = await createCart();
+
+    return data;
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
