@@ -1,16 +1,23 @@
-export type TODO = unknown;
+import {
+  StoreCartsRes as MedusaCart,
+  Product as MedusaProduct,
+  LineItem as MedusaLineItem
+} from '@medusajs/medusa';
 
-export type Setttings = TODO;
+export type TODO = Record<string, any>;
 
-export type Endpoints = TODO;
+export type Settings = {
+  api: string;
+  maxRetries: number;
+};
 
 export type BillingAddress = TODO;
 
-export type Cart = TODO;
-
-export type CartItem = TODO;
-
 export type Category = TODO;
+
+export type CartItem = MedusaLineItem;
+
+export type Cart = MedusaCart;
 
 export type Coupon = TODO;
 
@@ -24,13 +31,13 @@ export type OrderItem = TODO;
 
 export type PasswordResetResult = TODO;
 
-export type Product = TODO;
-
 export type ProductFilter = TODO;
 
 export type Review = TODO;
 
 export type ReviewItem = TODO;
+
+export type Product = MedusaProduct;
 
 export type User = TODO;
 
