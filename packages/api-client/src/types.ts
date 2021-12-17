@@ -1,15 +1,63 @@
 import {
   StoreCartsRes as MedusaCart,
   Product as MedusaProduct,
-  LineItem as MedusaLineItem
+  LineItem as MedusaLineItem,
+  StoreGetProductsParams as MedusaStoreGetProductsParams,
 } from '@medusajs/medusa';
+import Medusa from '@medusajs/medusa-js';
+import { Endpoints } from './apiTypes';
 
-export type TODO = Record<string, any>;
+
+export interface Storage {
+  set: (
+    name: string,
+    value: any
+  ) => void;
+  get: (name: string) => any;
+  remove: (name: string) => any;
+  removeAll: () => void;
+}
+
+
+export type ConfigState = {
+  getCartId(): string;
+  setCartId(id?: string | null): void;
+  getCustomerToken(): string;
+  setCustomerToken(token?: string | null): void;
+  getStore(): string;
+  setStore(id?: string | null): void;
+  getCurrency(): string;
+  setCurrency(id?: string | null): void;
+};
+
+export interface ClientConfig {
+  api: string;
+  cookies: {
+    currencyCookieName: string;
+    countryCookieName: string;
+    localeCookieName: string;
+    cartCookieName: string;
+    customerCookieName: string;
+    storeCookieName: string;
+  },
+  state: ConfigState;
+}
 
 export type Settings = {
   api: string;
   maxRetries: number;
 };
+
+export interface Config extends ClientConfig {
+  client?: Medusa;
+  storage: Storage;
+  customOptions: {
+    maxRetries: number;
+  };
+  overrides: Endpoints;
+}
+
+export type TODO = Record<string, any>;
 
 export type BillingAddress = TODO;
 
@@ -64,3 +112,5 @@ export type Store = TODO;
 export type Wishlist = TODO;
 
 export type WishlistItem = TODO;
+
+export type ListProductSearchQuery = MedusaStoreGetProductsParams;
