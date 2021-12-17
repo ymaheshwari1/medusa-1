@@ -6,7 +6,7 @@ import {
 import type { Order } from '@vue-storefront/medusa-api';
 import type {
   useUserOrderSearchParams as SearchParams
-} from '../types';
+} from '../../types';
 
 const params: UseUserOrderFactoryParams<Order, SearchParams> = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

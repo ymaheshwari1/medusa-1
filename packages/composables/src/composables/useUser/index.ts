@@ -7,7 +7,7 @@ import type { User } from '@vue-storefront/medusa-api';
 import type {
   UseUserUpdateParams as UpdateParams,
   UseUserRegisterParams as RegisterParams
-} from '../types';
+} from '../../types';
 
 const params: UseUserFactoryParams<User, UpdateParams, RegisterParams> = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
