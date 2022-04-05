@@ -31,7 +31,6 @@ Want to contribute? Ping us on `medusa` channel on [our Discord](https://discord
 1. Fork the repo
 2. Clone your fork of the repo
     ```
-    example:
     git clone https://github.com/vuestorefront-community/medusa.git
     cd medusa
     ```
