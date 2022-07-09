@@ -1,32 +1,30 @@
 import * as api from './api';
-import { apiClient } from './helpers/apiClient';
 import { apiClientFactory } from '@vue-storefront/core';
-import { Config } from './types';
+import { Settings } from './types';
 import { cookieManager } from './extensions/cookieManager';
-import { defaultSettings } from './helpers/defaultSettings';
+import axios from 'axios';
 
-function onCreate(settings: Config) {
-  const config = {
-    ...defaultSettings,
-    ...settings,
-    state: settings.state || defaultSettings.state
-  } as unknown as Config;
-
-  if (settings.client) {
-    return {
-      client: settings.client,
-      config
-    };
-  }
+const onCreate = (settings) => {
+  const client = axios.create({
+    baseURL: settings.api.url
+  });
 
   return {
     config: settings,
-    client: apiClient({
-      api: config.api,
-      ...config.customOptions
-    })
+    client
   };
-}
+};
+
+const init = (settings: Settings): any => {
+  const client = axios.create({
+    baseURL: settings.api.url
+  });
+
+  return {
+    config: settings,
+    client
+  };
+};
 
 const { createApiClient } = apiClientFactory({
   onCreate,
@@ -35,5 +33,6 @@ const { createApiClient } = apiClientFactory({
 });
 
 export {
-  createApiClient
+  createApiClient,
+  init
 };

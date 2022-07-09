@@ -27,32 +27,32 @@ const params: UseCartFactoryParams<Cart, CartItem, Product> = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   addItem: async (context: Context, { currentCart, product, quantity, customQuery }) => {
     console.log('Mocked: useCart.addItem');
-    return {};
+    return currentCart;
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   removeItem: async (context: Context, { currentCart, product, customQuery }) => {
     console.log('Mocked: useCart.removeItem');
-    return {};
+    return currentCart;
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   updateItemQty: async (context: Context, { currentCart, product, quantity, customQuery }) => {
     console.log('Mocked: useCart.updateItemQty');
-    return {};
+    return currentCart;
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   clear: async (context: Context, { currentCart }) => {
     console.log('Mocked: useCart.clear');
-    return {};
+    return currentCart;
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   applyCoupon: async (context: Context, { currentCart, couponCode, customQuery }) => {
     console.log('Mocked: useCart.applyCoupon');
     return {
-      updatedCart: {},
+      updatedCart: currentCart,
       updatedCoupon: {}
     };
   },
@@ -61,7 +61,7 @@ const params: UseCartFactoryParams<Cart, CartItem, Product> = {
   removeCoupon: async (context: Context, { currentCart, couponCode, customQuery }) => {
     console.log('Mocked: useCart.removeCoupon');
     return {
-      updatedCart: {}
+      updatedCart: currentCart
     };
   },
 
