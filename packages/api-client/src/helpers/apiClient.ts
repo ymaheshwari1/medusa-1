@@ -2,6 +2,6 @@ import Medusa from '@medusajs/medusa-js';
 import { Settings } from '../types';
 
 export const apiClient = (settings: Settings): Medusa => new Medusa({
-  baseUrl: settings.api,
+  baseUrl: settings.api.url,
   maxRetries: settings.maxRetries
 });

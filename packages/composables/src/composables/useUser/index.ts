@@ -1,5 +1,6 @@
 import {
   Context,
+  Logger,
   useUserFactory,
   UseUserFactoryParams
 } from '@vue-storefront/core';
@@ -29,8 +30,14 @@ const params: UseUserFactoryParams<User, UpdateParams, RegisterParams> = {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   register: async (context: Context, { email, password, firstName, lastName }) => {
-    console.log('Mocked: useUser.register');
-    return {};
+    const registerUser = async () => {
+      Logger.debug('[Medusa]: Registering user');
+      return context.$medusa.api.register({ email, password, firstName, lastName });
+    };
+
+    const data = await registerUser();
+
+    return data;
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
