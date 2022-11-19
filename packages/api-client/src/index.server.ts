@@ -5,19 +5,19 @@ import { cookieManager } from './extensions/cookieManager';
 import axios from 'axios';
 
 const onCreate = (settings) => {
-  const client = axios.create({
-    baseURL: settings.api.url
-  });
+  if (!settings?.client) {
+    return init(settings);
+  }
 
   return {
     config: settings,
-    client
+    client: settings.client
   };
 };
 
 const init = (settings: Settings): any => {
   const client = axios.create({
-    baseURL: settings.api.url
+    baseURL: settings.api
   });
 
   return {
