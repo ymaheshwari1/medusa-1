@@ -8,12 +8,12 @@ import type { Product, ProductFilter } from '@vue-storefront/medusa-api';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function getName(product: Product): string {
-  return 'Name';
+  return product.title;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function getSlug(product: Product): string {
-  return 'slug';
+  return product.handle;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -37,7 +37,7 @@ function getGallery(product: Product): AgnosticMediaGalleryItem[] {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function getCoverImage(product: Product): string {
-  return 'https://s3-eu-west-1.amazonaws.com/commercetools-maximilian/products/081223_1_large.jpg';
+  return product.thumbnail;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -52,7 +52,7 @@ function getAttributes(products: Product[] | Product, filterByAttributeName?: st
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function getDescription(product: Product): string {
-  return '';
+  return product.description;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
