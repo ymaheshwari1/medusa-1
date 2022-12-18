@@ -3,6 +3,7 @@ import type { Category } from '@vue-storefront/medusa-api';
 
 function getCategories(categories: Category[]): any {
   return categories.map((category: Category) => ({
+    id: category.id,
     label: category.title,
     slug: category.handle
   }))
