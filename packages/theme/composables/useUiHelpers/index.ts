@@ -1,12 +1,23 @@
+import { getCurrentInstance } from '@nuxtjs/composition-api';
+
+const getContext = () => {
+  const vm = getCurrentInstance();
+  return vm.root.proxy;
+};
 
 const useUiHelpers = () => {
+  const context = getContext();
+
   const getFacetsFromURL = () => {
-    console.warn('[VSF] please implement useUiHelpers.getFacets.');
+    const { query, params } = context.$router.currentRoute;
+    const categorySlug = Object.keys(params).reduce((prev, curr) => params[curr] || prev, params.slug_1);
 
     return {
-      categorySlug: null,
-      page: 1
-    } as any;
+      rootCatSlug: params.slug_1,
+      categorySlug,
+      page: parseInt(query.page as string, 10) || 1,
+      term: query.term
+    };
   };
 
   // eslint-disable-next-line

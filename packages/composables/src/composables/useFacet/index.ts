@@ -13,7 +13,9 @@ export const useFacet = useFacetFactory<ListProductSearchQuery>({
   search: async (context: Context, params: FacetSearchResult<SearchParams>) => {
     Logger.debug('[Medusa]: Loading products list: ', { ...params });
 
-    const products = await context.$medusa.api.listProducts();
+    const products = await context.$medusa.api.listProducts({
+      collection_id: [params.input.categorySlug]
+    });
 
     return {
       products,
