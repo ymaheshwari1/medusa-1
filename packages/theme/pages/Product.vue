@@ -28,7 +28,7 @@
             :regular="$n(productGetters.getPrice(product).regular, 'currency')"
             :special="productGetters.getPrice(product).special && $n(productGetters.getPrice(product).special, 'currency')"
           />
-          <div>
+          <!-- <div>
             <div class="product__rating">
               <SfRating
                 :score="averageRating"
@@ -39,19 +39,19 @@
               </a>
             </div>
             <SfButton class="sf-button--text">{{ $t('Read all reviews') }}</SfButton>
-          </div>
+          </div> -->
         </div>
         <div>
           <p class="product__description desktop-only">
             {{ description }}
           </p>
-          <SfButton class="sf-button--text desktop-only product__guide">
+          <!-- <SfButton class="sf-button--text desktop-only product__guide">
             {{ $t('Size guide') }}
-          </SfButton>
+          </SfButton> -->
           <SfSelect
             v-e2e="'size-select'"
             v-if="options.size"
-            :value="configuration.size"
+            :value="options.size[0]"
             @input="size => updateFilter({ size })"
             label="Size"
             class="sf-select--underlined product__select-size"
@@ -59,10 +59,10 @@
           >
             <SfSelectOption
               v-for="size in options.size"
-              :key="size.value"
-              :value="size.value"
+              :key="size"
+              :value="size"
             >
-              {{size.label}}
+              {{ size }}
             </SfSelectOption>
           </SfSelect>
           <div v-if="options.color && options.color.length > 1" class="product__colors desktop-only">
@@ -106,7 +106,7 @@
                 </template>
               </SfProperty>
             </SfTab>
-            <SfTab title="Read reviews">
+            <!-- <SfTab title="Read reviews">
               <SfReview
                 v-for="review in reviews"
                 :key="reviewGetters.getReviewId(review)"
@@ -120,7 +120,7 @@
                 hide-full-text="Read less"
                 class="product__review"
               />
-            </SfTab>
+            </SfTab> -->
             <SfTab
               title="Additional Information"
               class="product__additional-info"
@@ -142,7 +142,7 @@
         </LazyHydrate>
       </div>
     </div>
-
+<!-- 
     <LazyHydrate when-visible>
       <RelatedProducts
         :products="relatedProducts"
@@ -153,7 +153,7 @@
 
     <LazyHydrate when-visible>
       <InstagramFeed />
-    </LazyHydrate>
+    </LazyHydrate> -->
 
   </div>
 </template>
@@ -193,7 +193,7 @@ export default {
     const qty = ref(1);
     const route = useRoute();
     const router = useRouter();
-    const { products, search } = useProduct('products');
+    const { products, search } = useProduct();
     const { products: relatedProducts, search: searchRelatedProducts, loading: relatedLoading } = useProduct('relatedProducts');
     const { addItem, loading } = useCart();
     const { reviews: productReviews, search: searchReviews } = useReview('productReviews');
@@ -207,20 +207,29 @@ export default {
 
     // TODO: Breadcrumbs are temporary disabled because productGetters return undefined. We have a mocks in data
     // const breadcrumbs = computed(() => productGetters.getBreadcrumbs ? productGetters.getBreadcrumbs(product.value) : props.fallbackBreadcrumbs);
-    const productGallery = computed(() => productGetters.getGallery(product.value).map(img => ({
-      mobile: { url: addBasePath(img.small) },
-      desktop: { url: addBasePath(img.normal) },
-      big: { url: addBasePath(img.big) },
-      alt: product.value._name || product.value.name
+    const productGallery = computed(() => productGetters.getGallery(products.value).map(img => ({
+      mobile: { url: addBasePath(img.small), alt: "mobile" },
+      desktop: { url: addBasePath(img.normal), alt: "desktop" },
+      big: { url: addBasePath(img.big), alt: 'big' },
+      alt: 'product'
     })));
 
     onSSR(async () => {
       await search({ id: id.value });
-      await searchRelatedProducts({ catId: [categories.value[0]], limit: 8 });
-      await searchReviews({ productId: id.value });
+      // await searchRelatedProducts({ catId: [categories.value[0]], limit: 8 });
+      // await searchReviews({ productId: id.value });
     });
 
     const updateFilter = (filter) => {
+      console.log('configuration', configuration)
+      console.log('filter', filter)
+      console.log({
+        path: route.value.path,
+        query: {
+          ...configuration.value,
+          ...filter
+        }
+      })
       router.push({
         path: route.value.path,
         query: {
