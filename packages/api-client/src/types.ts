@@ -2,7 +2,8 @@ import {
   StoreCartsRes as MedusaCart,
   Product as MedusaProduct,
   LineItem as MedusaLineItem,
-  StoreGetProductsParams as MedusaStoreGetProductsParams
+  StoreGetProductsParams as MedusaStoreGetProductsParams,
+  ProductCollection as MedusaCollection
 } from '@medusajs/medusa';
 import Medusa from '@medusajs/medusa-js';
 import { Endpoints } from './apiTypes';
@@ -59,7 +60,7 @@ export type TODO = Record<string, any>;
 
 export type BillingAddress = TODO;
 
-export type Category = TODO;
+export type Category = MedusaCollection;
 
 export type CartItem = MedusaLineItem;
 

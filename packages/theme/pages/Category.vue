@@ -93,15 +93,8 @@
               :image="addBasePath(productGetters.getCoverImage(product))"
               :regular-price="$n(productGetters.getPrice(product).regular, 'currency')"
               :special-price="productGetters.getPrice(product).special && $n(productGetters.getPrice(product).special, 'currency')"
-              :max-rating="5"
-              :score-rating="productGetters.getAverageRating(product)"
-              :show-add-to-cart-button="true"
-              :is-in-wishlist="isInWishlist({ product })"
-              :is-added-to-cart="isInCart({ product })"
               :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
               class="products__product-card"
-              @click:wishlist="!isInWishlist({ product }) ? addItemToWishlist({ product }) : removeProductFromWishlist(product)"
-              @click:add-to-cart="addToCart({ product, quantity: 1 })"
             />
           </transition-group>
           <transition-group
@@ -122,14 +115,7 @@
               :image="addBasePath(productGetters.getCoverImage(product))"
               :regular-price="$n(productGetters.getPrice(product).regular, 'currency')"
               :special-price="productGetters.getPrice(product).special && $n(productGetters.getPrice(product).special, 'currency')"
-              :max-rating="5"
-              :score-rating="3"
-              :qty="1"
-              :is-in-wishlist="isInWishlist({ product })"
               :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
-              @input="productsQuantity[product._id] = $event"
-              @click:wishlist="!isInWishlist({ product }) ? addItemToWishlist({ product }) : removeProductFromWishlist(product)"
-              @click:add-to-cart="addToCart({ product, quantity: Number(productsQuantity[product._id]) })"
             >
               <template #configuration>
                 <SfProperty
@@ -139,15 +125,6 @@
                   style="margin: 0 0 1rem 0;"
                 />
                 <SfProperty class="desktop-only" name="Color" value="white" />
-              </template>
-              <template #actions>
-                <SfButton
-                  class="sf-button--text desktop-only"
-                  style="margin: 0 0 1rem auto; display: block;"
-                  @click="() => {}"
-                >
-                  {{ $t('Save for later') }}
-                </SfButton>
               </template>
             </SfProductCardHorizontal>
           </transition-group>

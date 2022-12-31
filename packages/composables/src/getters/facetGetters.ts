@@ -8,7 +8,7 @@ import {
   AgnosticBreadcrumb,
   AgnosticFacet
 } from '@vue-storefront/core';
-import type { Facet, FacetSearchCriteria } from '@vue-storefront/medusa-api';
+import type { Facet, FacetSearchCriteria, Product } from '@vue-storefront/medusa-api';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function getAll(params: FacetSearchResult<Facet>, criteria?: FacetSearchCriteria): AgnosticFacet[] {
@@ -40,26 +40,12 @@ function getCategoryTree(params: FacetSearchResult<Facet>): AgnosticCategoryTree
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function getProducts(params: FacetSearchResult<Facet>): any {
-  return [
-    {
-      _id: 1,
-      _description: 'Some description',
-      _categoriesRef: [
-        '1',
-        '2'
-      ],
-      name: 'Black jacket',
-      sku: 'black-jacket',
-      images: [
-        'https://s3-eu-west-1.amazonaws.com/commercetools-maximilian/products/081223_1_large.jpg'
-      ],
-      price: {
-        original: 12.34,
-        current: 10.00
-      }
-    }
-  ];
+function getProducts(params: FacetSearchResult<Facet>): Product[] {
+  let products = []
+  if(params.data.products.length) {
+    products = params.data.products
+  }
+  return products
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
