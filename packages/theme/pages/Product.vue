@@ -70,9 +70,9 @@
             <SfColor
               v-for="(color, i) in options.color"
               :key="i"
-              :color="color.value"
+              :color="color"
               class="product__color"
-              @click="updateFilter({ color: color.value })"
+              @click="updateFilter({ color: color })"
             />
           </div>
           <SfAddToCart
@@ -201,7 +201,7 @@ export default {
     const id = computed(() => route.value.params.id);
     const product = computed(() => productGetters.getFiltered(products.value, { master: true, attributes: route.value.query })[0]);
     const options = computed(() => productGetters.getAttributes(products.value, ['color', 'size']));
-    const configuration = computed(() => productGetters.getAttributes(product.value, ['color', 'size']));
+    // const variant = computed(() => productGetters.getCurrentVariant(products.value, ['color', 'size']));
     const categories = computed(() => productGetters.getCategoryIds(product.value));
     const reviews = computed(() => reviewGetters.getItems(productReviews.value));
 
@@ -221,19 +221,17 @@ export default {
     });
 
     const updateFilter = (filter) => {
-      console.log('configuration', configuration)
-      console.log('filter', filter)
       console.log({
         path: route.value.path,
         query: {
-          ...configuration.value,
+          ...route.value.query,
           ...filter
         }
       })
       router.push({
         path: route.value.path,
         query: {
-          ...configuration.value,
+          ...route.value.query,
           ...filter
         }
       });
@@ -241,7 +239,6 @@ export default {
 
     return {
       updateFilter,
-      configuration,
       product,
       reviews,
       reviewGetters,

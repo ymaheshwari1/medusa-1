@@ -40,12 +40,34 @@ function getCoverImage(product: Product): string {
   return product.thumbnail;
 }
 
+function getFilterIds(product: Product, filters: ProductFilter): Array<string> {
+  return filters.reduce((optionIds, filter) => {
+    const option = product.options.find((option) => option.title.toLowerCase() === filter)
+    if(option?.values?.length > 0) {
+      optionIds.push(option.id)
+    }
+    return optionIds;
+  }, []);
+}
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function getFiltered(products: Product[], filters: ProductFilter): Product[] {
-  if(!products) {
-    return []
+function getFiltered(product: Product, filters: ProductFilter): Product {
+  console.log('filters', filters)
+
+  if(product.variants.length <= 0) {
+    return product;
   }
-  return Array.isArray(products) ? products : [products];
+
+  const filterIds = getFilterIds(product, filters);
+
+  const variant = product.variants.find((variant) => {
+    variant.options.find((option) => {
+      filterIds.includes(option.option_id)
+    })
+  })
+
+  console.log(product)
+  return product;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -53,15 +75,10 @@ function getAttributes(products: Product, filterByAttributeName?: string[]): Rec
   return filterByAttributeName.reduce((optionsIds, attribute) => {
     const option = products.options.find((option) => option.title.toLowerCase() === attribute)
     if(option?.values?.length > 0) {
-      optionsIds[attribute] = [new Set(option.values.map((option) => option.value))]
+      optionsIds[attribute] = Array.from(new Set(option.values.map((option) => option.value)))
     }
     return optionsIds;
   }, {});
-}
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function getCurrentConfiguration(product: Product): Record<string, AgnosticAttribute | string> {
-  return {}
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -107,6 +124,5 @@ export const productGetters: ProductGetters<Product, ProductFilter> = {
   getId,
   getFormattedPrice,
   getTotalReviews,
-  getAverageRating,
-  getCurrentConfiguration
+  getAverageRating
 };
