@@ -4,7 +4,7 @@ import {
   AgnosticPrice,
   ProductGetters
 } from '@vue-storefront/core';
-import type { Product, ProductFilter } from '@vue-storefront/medusa-api';
+import type { Product, ProductFilter, ProductVariant } from '@vue-storefront/medusa-api';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function getName(product: Product): string {
@@ -51,23 +51,34 @@ function getFilterIds(product: Product, filters: ProductFilter): Array<string> {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function getFiltered(product: Product, filters: ProductFilter): Product {
-  console.log('filters', filters)
+function getFiltered(products: Product[], filters: ProductFilter): Product[] {
+  return products;
+}
 
-  if(product.variants.length <= 0) {
-    return product;
-  }
+// TODO: update the way to get the current selected variant
+function getCurrentVariant(product: Product, selectedFilters: ProductFilter): ProductVariant {
+  const productOptions = product.options.map((option) => option);
 
-  const filterIds = getFilterIds(product, filters);
+  const optionIds = productOptions.reduce((optionIds, option) => {
+    const optionTitle = option.title.toLowerCase();
+    const optionValue = selectedFilters[optionTitle];
 
-  const variant = product.variants.find((variant) => {
-    variant.options.find((option) => {
-      filterIds.includes(option.option_id)
-    })
+    if(optionValue) {
+      optionIds.push(option.values.find((opValue) => opValue.value === optionValue)?.option_id)
+    } else {
+      optionIds.push(option.values[0].option_id)
+    }
+
+    return optionIds;
+  }, [])
+
+  return product.variants.find((variant) => {
+    const variantOptionIds = variant.options.map((option) => option.option_id)
+    const variantOptionValues = variant.options.map((option) => option.value)
+    const selectedFiltersValue = Object.values(selectedFilters)
+
+    return (optionIds.every((id) => variantOptionIds.includes(id)) && selectedFiltersValue.every((value) => variantOptionValues.includes(value)))
   })
-
-  console.log(product)
-  return product;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -124,5 +135,6 @@ export const productGetters: ProductGetters<Product, ProductFilter> = {
   getId,
   getFormattedPrice,
   getTotalReviews,
-  getAverageRating
+  getAverageRating,
+  getCurrentVariant
 };
