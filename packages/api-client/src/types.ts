@@ -3,7 +3,8 @@ import {
   Product as MedusaProduct,
   LineItem as MedusaLineItem,
   StoreGetProductsParams as MedusaStoreGetProductsParams,
-  ProductCollection as MedusaCollection
+  ProductCollection as MedusaCollection,
+  Customer as MedusaCustomer
 } from '@medusajs/medusa';
 import Medusa from '@medusajs/medusa-js';
 import { Endpoints } from './apiTypes';
@@ -86,7 +87,7 @@ export type ReviewItem = TODO;
 
 export type Product = MedusaProduct;
 
-export type User = TODO;
+export type User = MedusaCustomer;
 
 export type UserBillingAddress = TODO;
 

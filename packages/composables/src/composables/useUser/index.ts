@@ -37,13 +37,21 @@ const params: UseUserFactoryParams<User, UpdateParams, RegisterParams> = {
 
     const data = await registerUser();
 
+    console.log('[Medusa]: Registering user', data);
+
     return data;
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   logIn: async (context: Context, { username, password }) => {
-    console.log('Mocked: useUser.logIn');
-    return {};
+    const customerLogin = async () => {
+      return context.$medusa.api.login({ username, password })
+    }
+
+    const data = await customerLogin();
+
+    console.log('Mocked: useUser.logIn', data);
+    return data;
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
