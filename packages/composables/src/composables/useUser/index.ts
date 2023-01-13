@@ -14,7 +14,7 @@ const params: UseUserFactoryParams<User, UpdateParams, RegisterParams> = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   load: async (context: Context) => {
     console.log('Mocked: useUser.load');
-    return {};
+    return {} as User;
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -25,14 +25,14 @@ const params: UseUserFactoryParams<User, UpdateParams, RegisterParams> = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   updateUser: async (context: Context, { currentUser, updatedUserData }) => {
     console.log('Mocked: useUser.updateUser');
-    return {};
+    return {} as User;
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   register: async (context: Context, { email, password, firstName, lastName }) => {
     const registerUser = async () => {
       Logger.debug('[Medusa]: Registering user');
-      return context.$medusa.api.register({ email, password, firstName, lastName });
+      return context.$medusa.api.register({ email, password, first_name: firstName, last_name: lastName });
     };
 
     const data = await registerUser();
@@ -57,7 +57,7 @@ const params: UseUserFactoryParams<User, UpdateParams, RegisterParams> = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   changePassword: async (context: Context, { currentUser, currentPassword, newPassword }) => {
     console.log('Mocked: useUser.changePassword');
-    return {};
+    return {} as User;
   }
 };
 
