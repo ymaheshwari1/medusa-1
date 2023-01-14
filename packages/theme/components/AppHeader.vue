@@ -164,9 +164,9 @@ export default {
       toggleLoginModal();
     };
 
-    const closeSearch = () => {
+    const closeSearch = (event) => {
       const wishlistClassName = 'sf-product-card__wishlist-icon';
-      const isWishlistIconClicked = event.path.find(p => wishlistClassName.search(p.className) > 0);
+      const isWishlistIconClicked = event?.path.find(p => wishlistClassName.search(p.className) > 0);
       if (isWishlistIconClicked || !isSearchOpen.value) return;
 
       term.value = '';
