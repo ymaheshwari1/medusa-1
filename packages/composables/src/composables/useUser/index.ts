@@ -13,8 +13,18 @@ import type {
 const params: UseUserFactoryParams<User, UpdateParams, RegisterParams> = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   load: async (context: Context) => {
-    console.log('Mocked: useUser.load');
-    return {} as User;
+    const loadUser = async () => {
+      Logger.debug('[Medusa]: Loading user');
+      return context.$medusa.api.loadUser();
+    };
+
+    const data = await loadUser();
+
+    if(data.error) {
+      return;
+    }
+
+    return data;
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -45,7 +55,7 @@ const params: UseUserFactoryParams<User, UpdateParams, RegisterParams> = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   logIn: async (context: Context, { username, password }) => {
     const customerLogin = async () => {
-      return context.$medusa.api.login({ username, password })
+      return context.$medusa.api.login({ email: username, password })
     }
 
     const data = await customerLogin();
