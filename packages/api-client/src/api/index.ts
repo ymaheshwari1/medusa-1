@@ -5,6 +5,8 @@ export { listProducts } from './listProducts';
 export { productDetails } from './productDetails';
 export { register } from './register';
 export { listCategories } from './category'
+export { loadUser } from './loadUser'
+export { login } from './login'
 
 export async function bootstrap(context, params) {
   let response;
