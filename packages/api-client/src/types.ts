@@ -4,6 +4,7 @@ import {
   LineItem as MedusaLineItem,
   StoreGetProductsParams as MedusaStoreGetProductsParams,
   ProductCollection as MedusaCollection,
+  ProductVariant as MedusaProductVariant,
   Customer as MedusaCustomer
 } from '@medusajs/medusa';
 import Medusa from '@medusajs/medusa-js';
@@ -86,6 +87,8 @@ export type Review = TODO;
 export type ReviewItem = TODO;
 
 export type Product = MedusaProduct;
+
+export type ProductVariant = MedusaProductVariant;
 
 export type User = MedusaCustomer;
 
