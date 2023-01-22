@@ -47,31 +47,32 @@
           <!-- <SfButton class="sf-button--text desktop-only product__guide">
             {{ $t('Size guide') }}
           </SfButton> -->
+          {{ options.size }}
           <SfSelect
             v-e2e="'size-select'"
-            v-if="options.size"
-            :value="selectedOptions['size'] ? selectedOptions['size'] : options.size[0]"
+            v-if="Object.keys(options.size).length"
+            :value="Object.keys(options.size)[0]"
             @input="size => updateFilter({ size })"
             label="Size"
             class="sf-select--underlined product__select-size"
             :required="true"
           >
             <SfSelectOption
-              v-for="size in options.size"
-              :key="size"
-              :value="size"
+              v-for="value in Object.keys(options.size)"
+              :key="value"
+              :value="value"
             >
-              {{ size }}
+              {{ value }}
             </SfSelectOption>
           </SfSelect>
-          <div v-if="options.color && options.color.length > 1" class="product__colors desktop-only">
+          <div v-if="Object.keys(options.color) && Object.keys(options.color).length" class="product__colors desktop-only">
             <p class="product__color-label">{{ $t('Color') }}:</p>
             <SfColor
-              v-for="(color, i) in options.color"
-              :key="i"
-              :color="color"
+              v-for="(value, key) in options.color"
+              :key="value.id"
+              :color="key"
               class="product__color"
-              @click="updateFilter({ color: color })"
+              @click="updateFilter({ key })"
             />
           </div>
           <SfAddToCart

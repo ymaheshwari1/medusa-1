@@ -20,6 +20,8 @@ const params: UseUserFactoryParams<User, UpdateParams, RegisterParams> = {
 
     const data = await loadUser();
 
+    console.log('data in load', data)
+
     if(data.error) {
       return;
     }
@@ -70,10 +72,16 @@ const params: UseUserFactoryParams<User, UpdateParams, RegisterParams> = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   logIn: async (context: Context, { username, password }) => {
     const customerLogin = async () => {
-      return context.$medusa.api.login({ email: username, password })
+      return context.$medusa.api.login({ email: username, password });
     }
 
     const data = await customerLogin();
+
+    console.log('data composables login', data)
+
+    if(!data.id) {
+      return;
+    }
 
     return data;
   },
