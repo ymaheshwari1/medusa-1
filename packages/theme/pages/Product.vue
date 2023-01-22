@@ -2,7 +2,6 @@
   <div id="product">
     <SfBreadcrumbs
       class="breadcrumbs desktop-only"
-      :breadcrumbs="breadcrumbs"
     />
     <div class="product">
       <LazyHydrate when-idle>
@@ -87,7 +86,7 @@
           />
         </div>
 
-        <LazyHydrate when-idle>
+        <!-- <LazyHydrate when-idle>
           <SfTabs :open-tab="1" class="product__tabs">
             <SfTab title="Description">
               <div class="product__description">
@@ -107,7 +106,7 @@
                 </template>
               </SfProperty>
             </SfTab>
-            <!-- <SfTab title="Read reviews">
+            <SfTab title="Read reviews">
               <SfReview
                 v-for="review in reviews"
                 :key="reviewGetters.getReviewId(review)"
@@ -121,7 +120,7 @@
                 hide-full-text="Read less"
                 class="product__review"
               />
-            </SfTab> -->
+            </SfTab>
             <SfTab
               title="Additional Information"
               class="product__additional-info"
@@ -140,7 +139,7 @@
             </div>
             </SfTab>
           </SfTabs>
-        </LazyHydrate>
+        </LazyHydrate> -->
       </div>
     </div>
 <!-- 
@@ -200,11 +199,15 @@ export default {
     const { reviews: productReviews, search: searchReviews } = useReview('productReviews');
 
     const id = computed(() => route.value.params.id);
-    const product = computed(() => productGetters.getFiltered(products.value, { master: true, attributes: route.value.query })[0]);
+    const selectedOptions = computed(() => route.value.query);
+
+    const product = computed(() => productGetters.getFiltered(products.value, { master: true, attributes: route.value.query }));
     const options = computed(() => productGetters.getAttributes(products.value, ['color', 'size']));
-    const configuration = computed(() => productGetters.getAttributes(product.value, ['color', 'size']));
+    const variant = computed(() => productGetters.getCurrentVariant(products.value, route.value.query));
     const categories = computed(() => productGetters.getCategoryIds(product.value));
     const reviews = computed(() => reviewGetters.getItems(productReviews.value));
+    const stock = computed(() => variant.value.inventory_quantity)
+    const description = computed(() => products.value.description)
 
     // TODO: Breadcrumbs are temporary disabled because productGetters return undefined. We have a mocks in data
     // const breadcrumbs = computed(() => productGetters.getBreadcrumbs ? productGetters.getBreadcrumbs(product.value) : props.fallbackBreadcrumbs);
@@ -225,7 +228,7 @@ export default {
       router.push({
         path: route.value.path,
         query: {
-          ...configuration.value,
+          ...route.value.query,
           ...filter
         }
       });
@@ -233,7 +236,6 @@ export default {
 
     return {
       updateFilter,
-      configuration,
       product,
       reviews,
       reviewGetters,
@@ -246,7 +248,10 @@ export default {
       addItem,
       loading,
       productGetters,
-      productGallery
+      productGallery,
+      stock,
+      description,
+      selectedOptions
     };
   },
   components: {
@@ -270,54 +275,6 @@ export default {
     InstagramFeed,
     RelatedProducts,
     LazyHydrate
-  },
-  data() {
-    return {
-      stock: 5,
-      properties: [
-        {
-          name: 'Product Code',
-          value: '578902-00'
-        },
-        {
-          name: 'Category',
-          value: 'Pants'
-        },
-        {
-          name: 'Material',
-          value: 'Cotton'
-        },
-        {
-          name: 'Country',
-          value: 'Germany'
-        }
-      ],
-      description: 'Find stunning women cocktail and party dresses. Stand out in lace and metallic cocktail dresses and party dresses from all your favorite brands.',
-      detailsIsActive: false,
-      brand:
-          'Brand name is the perfect pairing of quality and design. This label creates major everyday vibes with its collection of modern brooches, silver and gold jewellery, or clips it back with hair accessories in geo styles.',
-      careInstructions: 'Do not wash!',
-      breadcrumbs: [
-        {
-          text: 'Home',
-          route: {
-            link: '#'
-          }
-        },
-        {
-          text: 'Category',
-          route: {
-            link: '#'
-          }
-        },
-        {
-          text: 'Pants',
-          route: {
-            link: '#'
-          }
-        }
-      ]
-    };
   }
 };
 </script>
