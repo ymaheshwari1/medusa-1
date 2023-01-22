@@ -29,8 +29,8 @@ function getGallery(product: Product): AgnosticMediaGalleryItem[] {
   return [
     {
       small: product.images[0].url,
-      normal: product.images[1].url,
-      big: product.images[1].url
+      normal: '',
+      big: ''
     }
   ];
 }
@@ -49,11 +49,19 @@ function getFiltered(products: Product[], filters: ProductFilter): Product[] {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function getAttributes(products: Product, filterByAttributeName?: string[]): Record<string, AgnosticAttribute | string> {
+function getAttributes(product: Product, filterByAttributeName?: string[]): Record<string, AgnosticAttribute | string> {
   return filterByAttributeName.reduce((optionsIds, attribute) => {
-    const option = products.options.find((option) => option.title.toLowerCase() === attribute)
+    const option = product.options.find((option) => option.title.toLowerCase() === attribute)
     if(option?.values?.length > 0) {
-      optionsIds[attribute] = [new Set(option.values.map((option) => option.value))]
+      const values = option.values.reduce((values, option) => {
+        values[option.value] ? values[option.value] : (values[option.value] = {
+          id: option.id,
+          value: option.value
+        })
+
+        return values;
+      }, {})
+      optionsIds[attribute] = values
     }
     return optionsIds;
   }, {});

@@ -1,12 +1,11 @@
 /* eslint-disable camelcase */
 import { Context } from '@vue-storefront/core';
-// import { User } from '../../types';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export async function register (context: Context, params: any) {
   try {
-    const { customer } = await context.client.customers.create(params);
-    return customer;
+    const data = await context.client.customers.create(params);
+    return data;
   } catch (error) {
     throw new Error(error);
   }
