@@ -49,7 +49,7 @@ const params: UseUserFactoryParams<User, UpdateParams, RegisterParams> = {
   updateUser: async (context: Context, params: any) => {
     const updateCustomer = async () => {
       Logger.debug('[Medusa]: Updating user');
-      return context.$medusa.api.updateUser({ first_name: params.firstName, last_name: params.lastName, email: params.email });
+      return context.$medusa.api.updateUser({ first_name: 'Example User' });
     };
 
     const data = await updateCustomer();
@@ -65,6 +65,8 @@ const params: UseUserFactoryParams<User, UpdateParams, RegisterParams> = {
     };
 
     const data = await registerUser();
+
+    console.log('register data in composables', data)
 
     return data;
   },
