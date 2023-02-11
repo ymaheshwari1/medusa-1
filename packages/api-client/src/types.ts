@@ -47,6 +47,7 @@ export interface ClientConfig {
 export type Settings = {
   api: any;
   maxRetries: number;
+  publishableApiKey?: string;
 };
 
 export interface Config extends ClientConfig {

@@ -4,6 +4,7 @@ import { apiClientFactory } from '@vue-storefront/core';
 import { Config } from './types';
 import { cookieManager } from './extensions/cookieManager';
 import { defaultSettings } from './helpers/defaultSettings';
+import { KeyManager } from '@medusajs/medusa-js';
 
 function onCreate(settings: Config) {
   const config = {
@@ -23,7 +24,8 @@ function onCreate(settings: Config) {
     config: settings,
     client: apiClient({
       api: config.api,
-      ...config.customOptions
+      ...config.customOptions,
+      publishableApiKey: KeyManager.getPublishableApiKey()
     })
   };
 }
